@@ -17,22 +17,26 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func en(w http.ResponseWriter, req *http.Request) {
+func en(w http.ResponseWriter, r *http.Request) {
 	p1 := person{
 		Name: "Siri",
 	}
-	if err := json.NewEncoder(w).Encode(p1); err != nil {
+	p2 := person{
+		Name: "Keaton",
+	}
+	people := []person{p1, p2}
+	if err := json.NewEncoder(w).Encode(people); err != nil {
 		log.Println("Encoded bad data", err)
 	}
 }
 
-func de(w http.ResponseWriter, req *http.Request) {
-	var p1 person
-	if err := json.NewDecoder(req.Body).Decode(&p1); err != nil {
+func de(w http.ResponseWriter, r *http.Request) {
+	people := []person{}
+	if err := json.NewDecoder(r.Body).Decode(&people); err != nil {
 		log.Println("Decoded bad data", err)
 	}
-	fmt.Println("Person: ", p1)
+	fmt.Println("People: ", people)
 }
 
 // command to test decoding json
-// curl -XGET -H "Content-type: application/json" -d '{"Name":"Siri Tali"}' 'localhost:8080/decode'
+// curl -XGET -H "Content-type: application/json" -d '[{"Name":"Siri Tali"}]' 'localhost:8080/decode'
