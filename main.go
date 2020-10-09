@@ -34,4 +34,5 @@ func de(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("Person: ", p1)
 }
 
+// command to test decoding json
 // curl -XGET -H "Content-type: application/json" -d '{"Name":"Siri Tali"}' 'localhost:8080/decode'
